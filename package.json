@@ -1,8 +1,11 @@
 {
-  "name": "smm-panel-backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "dependencies": {
-    "express": "^4.18.2"
-  }
+"name": "smm-panel-backend",
+"version": "1.0.0",
+"main": "index.js",
+"scripts": {
+"start": "node index.js"
+},
+"dependencies": {
+"express": "^4.18.2"
+}
 }
