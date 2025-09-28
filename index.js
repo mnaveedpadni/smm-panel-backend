@@ -1,33 +1,26 @@
 const express = require("express");
 const cors = require("cors");
+const admin = require("firebase-admin");
+
+let serviceAccount;
+if (process.env.FIREBASE_KEY) {
+  serviceAccount = JSON.parse(process.env.FIREBASE_KEY);
+}
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
+
+const db = admin.firestore();
 
 const app = express();
-
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Routes
 app.get("/", (req, res) => {
-  res.send("Backend is running ✅");
+  res.send("Backend is running ✅ with Firebase on Vercel");
 });
 
-app.post("/register", (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).json({ message: "Username and password required" });
-  }
-  res.status(201).json({ message: "User registered", user: username });
-});
-
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-  if (username === "test" && password === "1234") {
-    return res.status(200).json({ message: "Login successful" });
-  }
-  res.status(401).json({ message: "Invalid credentials" });
-});
-
-// ❌ Do NOT use app.listen()
-// ✅ Instead export the app for Vercel
 module.exports = app;
